@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import {
   Clock,
   Facebook,
-  HeartPulse,
   Instagram,
   Linkedin,
   Mail,
@@ -64,17 +64,18 @@ const Footer = () => {
 
         <div className="grid md:grid-cols-4 gap-10 mb-14">
           <div className="md:col-span-1">
-            <div className="flex items-center gap-2 mb-5">
-              <div className="w-10 h-10 rounded-xl bg-red-700 grid place-items-center">
-                <HeartPulse className="w-5 h-5 text-white" />
+            <div className="flex items-center gap-3 mb-5">
+              <div className="bg-white rounded-lg p-2">
+                <Image
+                  src="/logo.png"
+                  alt="Better Training"
+                  width={96}
+                  height={62}
+                  className="h-10 w-auto"
+                />
               </div>
-              <div>
-                <div className="font-display font-bold text-xl text-white">
-                  Better Training
-                </div>
-                <div className="text-[11px] uppercase tracking-[0.18em] text-red-400">
-                  Brisbane
-                </div>
+              <div className="text-[11px] uppercase tracking-[0.18em] text-red-400">
+                Brisbane
               </div>
             </div>
             <p className="text-sm leading-relaxed text-slate-400">

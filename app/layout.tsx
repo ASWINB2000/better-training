@@ -31,7 +31,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${playfairDisplay.variable}`}>
-      <body>
+      <body suppressHydrationWarning>
         {children}
         <Toaster />
       </body>

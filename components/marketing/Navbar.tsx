@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { HeartPulse, Menu, Phone, X } from "lucide-react";
+import Image from "next/image";
+import { Menu, Phone, X } from "lucide-react";
 import { navLinks, siteInfo } from "@/lib/mock";
 import { Button } from "@/components/ui/button";
 
@@ -39,17 +40,14 @@ const Navbar = () => {
           }}
           className="flex items-center gap-2.5"
         >
-          <div className="relative w-11 h-11 rounded-xl bg-white border-2 border-red-800 grid place-items-center shadow-sm">
-            <HeartPulse className="w-6 h-6 text-red-800" strokeWidth={2.4} />
-          </div>
-          <div className="leading-tight">
-            <div className="font-display font-bold text-xl text-slate-900">
-              Better Training
-            </div>
-            <div className="text-[10px] uppercase tracking-[0.22em] text-red-800 font-semibold">
-              Brisbane • RTO
-            </div>
-          </div>
+          <Image
+            src="/logo.png"
+            alt="Better Training"
+            width={96}
+            height={62}
+            className="h-16 w-auto"
+            priority
+          />
         </a>
 
         <nav className="hidden lg:flex items-center gap-9">
