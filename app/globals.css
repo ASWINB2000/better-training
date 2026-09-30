@@ -9,6 +9,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: #ffffff;
   color: #0f172a;
+  /* Neither <html> nor <body> sets `overflow` explicitly, so the browser
+     propagates body's overflow/scrollbar-gutter to the real viewport
+     scrollbox (not html's) — this is the element that must reserve the
+     gutter, or Radix's scroll-lock (which toggles overflow on body) still
+     shifts the whole fixed-width layout when it hides the scrollbar. */
+  scrollbar-gutter: stable;
 }
 
 .font-display {

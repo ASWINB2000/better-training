@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
+  Activity,
   Calendar as CalendarIcon,
   Check,
   ChevronLeft,
@@ -9,6 +10,7 @@ import {
   Clock,
   LucideIcon,
   MapPin,
+  Stethoscope,
   Users,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,13 +19,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
 import { courses, workshops } from "@/lib/mock";
 
@@ -32,6 +27,7 @@ interface Service {
   name: string;
   price: number;
   duration: string;
+  group: "Courses" | "Workshops";
 }
 
 interface ContactInfo {
@@ -47,13 +43,20 @@ const allServices: Service[] = [
     name: c.title,
     price: c.price,
     duration: c.duration,
+    group: "Courses" as const,
   })),
   ...workshops.map((w) => ({
     id: w.id,
     name: w.title,
     price: 89,
     duration: w.duration,
+    group: "Workshops" as const,
   })),
+];
+
+const serviceGroups: { label: "Courses" | "Workshops"; icon: LucideIcon }[] = [
+  { label: "Courses", icon: Stethoscope },
+  { label: "Workshops", icon: Activity },
 ];
 
 const times = ["9:00 AM", "11:00 AM", "1:00 PM", "3:00 PM"];
@@ -69,6 +72,16 @@ const BookingSection = () => {
     phone: "",
     notes: "",
   });
+  const cardRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [step]);
 
   const selected = allServices.find((s) => s.id === service);
 
@@ -109,64 +122,72 @@ const BookingSection = () => {
           <p className="mt-4 text-slate-600">Simple 4-step booking. No account required.</p>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
-          <div className="grid grid-cols-4 border-b border-slate-100">
-            {steps.map((label, i) => {
-              const idx = i + 1;
-              const active = step === idx;
-              const done = step > idx;
-              return (
-                <div
-                  key={label}
-                  className={`px-3 py-5 flex items-center justify-center gap-2 text-sm font-medium border-b-2 transition-colors ${
-                    active
-                      ? "border-red-700 text-red-800 bg-red-50/50"
-                      : done
-                      ? "border-red-200 text-slate-600"
-                      : "border-transparent text-slate-400"
-                  }`}
-                >
-                  <span
-                    className={`w-6 h-6 rounded-full grid place-items-center text-xs font-bold ${
-                      done
-                        ? "bg-red-700 text-white"
-                        : active
-                        ? "bg-red-700 text-white"
-                        : "bg-slate-100 text-slate-500"
-                    }`}
-                  >
-                    {done ? <Check className="w-3.5 h-3.5" /> : idx}
-                  </span>
-                  <span className="hidden sm:inline">{label}</span>
-                </div>
-              );
-            })}
+        <div
+          ref={cardRef}
+          className="bg-white rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden scroll-mt-28"
+        >
+          <div className="px-8 md:px-14 pt-8 pb-6 bg-gradient-to-b from-slate-50/70 to-white border-b border-slate-100">
+            <div className="relative">
+              <div className="absolute top-[17px] left-[12.5%] right-[12.5%] h-[3px] bg-slate-200 rounded-full" />
+              <div
+                className="absolute top-[17px] left-[12.5%] h-[3px] bg-red-700 rounded-full transition-[width] duration-500 ease-out"
+                style={{ width: `${((step - 1) / (steps.length - 1)) * 75}%` }}
+              />
+              <div className="relative grid grid-cols-4">
+                {steps.map((label, i) => {
+                  const idx = i + 1;
+                  const active = step === idx;
+                  const done = step > idx;
+                  return (
+                    <button
+                      key={label}
+                      type="button"
+                      onClick={() => done && setStep(idx)}
+                      className={`flex flex-col items-center gap-2.5 ${
+                        done ? "cursor-pointer" : "cursor-default"
+                      }`}
+                    >
+                      <span
+                        className={`grid place-items-center w-[34px] h-[34px] rounded-full text-xs font-bold ring-[6px] transition-colors duration-300 ${
+                          done
+                            ? "bg-red-700 text-white ring-white"
+                            : active
+                            ? "bg-red-700 text-white ring-red-50"
+                            : "bg-white text-slate-400 ring-white border border-slate-200"
+                        }`}
+                      >
+                        {done ? <Check className="w-4 h-4" /> : idx}
+                      </span>
+                      <span
+                        className={`text-[11px] md:text-xs font-semibold tracking-wide ${
+                          active ? "text-red-800" : done ? "text-slate-600" : "text-slate-400"
+                        }`}
+                      >
+                        {label}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
-          <div className="p-8 md:p-12">
+          <div className="p-6 md:p-10">
+            <div key={step} className="fade-in-up min-h-[22rem]">
             {step === 1 && (
               <div className="max-w-xl mx-auto">
-                <Label className="text-slate-900 font-semibold">Select service *</Label>
-                <Select value={service} onValueChange={setService}>
-                  <SelectTrigger className="h-14 mt-2 rounded-xl border-slate-200">
-                    <SelectValue placeholder="— Choose a course or workshop —" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {allServices.map((s) => (
-                      <SelectItem key={s.id} value={s.id}>
-                        {s.name} — ${s.price}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Label className="text-slate-900 font-semibold">Select a service *</Label>
+                <p className="text-sm text-slate-500 mt-1 mb-3">
+                  Choose the course or workshop you&apos;d like to book.
+                </p>
 
-                {selected && (
-                  <div className="mt-6 grid grid-cols-3 gap-3">
-                    <InfoTile icon={Clock} label="Duration" value={selected.duration} />
-                    <InfoTile icon={MapPin} label="Location" value="Brisbane CBD" />
-                    <InfoTile icon={Users} label="Group" value="Max 12" />
-                  </div>
-                )}
+                <ServicePicker value={service} onChange={setService} />
+
+                <div className="mt-5 rounded-2xl border border-slate-100 bg-slate-50/70 px-5 py-4 flex items-center divide-x divide-slate-200">
+                  <SummaryStat icon={Clock} label="Duration" value={selected?.duration ?? "—"} />
+                  <SummaryStat icon={MapPin} label="Location" value="Brisbane CBD" />
+                  <SummaryStat icon={Users} label="Group size" value="Max 12" />
+                </div>
               </div>
             )}
 
@@ -280,6 +301,7 @@ const BookingSection = () => {
                 </p>
               </div>
             )}
+            </div>
 
             <div className="mt-10 flex items-center justify-between max-w-3xl mx-auto">
               <Button
@@ -313,7 +335,79 @@ const BookingSection = () => {
   );
 };
 
-const InfoTile = ({
+const ServicePicker = ({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (id: string) => void;
+}) => {
+  const selected = allServices.find((s) => s.id === value);
+  const [groupOverride, setGroupOverride] = useState<"Courses" | "Workshops" | null>(null);
+  const group = groupOverride ?? selected?.group ?? "Courses";
+
+  return (
+    <div>
+      <div className="inline-flex rounded-full bg-slate-100 p-1 gap-1">
+        {serviceGroups.map((g) => {
+          const active = group === g.label;
+          return (
+            <button
+              key={g.label}
+              type="button"
+              onClick={() => setGroupOverride(g.label)}
+              className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                active ? "bg-red-700 text-white shadow-sm" : "text-slate-500 hover:text-slate-800"
+              }`}
+            >
+              <g.icon className="w-3.5 h-3.5" />
+              {g.label}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="mt-4 space-y-1.5 max-h-56 overflow-y-auto pr-1">
+        {allServices
+          .filter((s) => s.group === group)
+          .map((s) => {
+            const active = value === s.id;
+            return (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => onChange(s.id)}
+                className={`w-full flex items-center justify-between gap-4 rounded-xl border px-4 py-3 text-left transition-colors ${
+                  active
+                    ? "border-red-700 bg-red-50/60"
+                    : "border-slate-200 hover:border-red-300 hover:bg-slate-50"
+                }`}
+              >
+                <span className="flex items-center gap-3 min-w-0">
+                  <span
+                    className={`w-5 h-5 rounded-full border-2 grid place-items-center shrink-0 ${
+                      active ? "border-red-700 bg-red-700" : "border-slate-300"
+                    }`}
+                  >
+                    {active && <Check className="w-3 h-3 text-white" />}
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block font-medium text-slate-900 text-sm truncate">
+                      {s.name}
+                    </span>
+                    <span className="block text-xs text-slate-500">{s.duration}</span>
+                  </span>
+                </span>
+                <span className="text-red-800 font-semibold text-sm shrink-0">${s.price}</span>
+              </button>
+            );
+          })}
+      </div>
+    </div>
+  );
+};
+
+const SummaryStat = ({
   icon: Icon,
   label,
   value,
@@ -322,12 +416,10 @@ const InfoTile = ({
   label: string;
   value: string;
 }) => (
-  <div className="bg-slate-50 rounded-xl p-4 flex items-center gap-3">
-    <div className="w-10 h-10 rounded-lg bg-white grid place-items-center border border-slate-100">
-      <Icon className="w-4 h-4 text-red-700" />
-    </div>
-    <div>
-      <div className="text-[10px] uppercase tracking-widest text-slate-400">{label}</div>
+  <div className="flex-1 flex items-center gap-2.5 px-4 first:pl-0 last:pr-0">
+    <Icon className="w-4 h-4 text-red-700 shrink-0" />
+    <div className="leading-tight">
+      <div className="text-[10px] uppercase tracking-wide text-slate-400">{label}</div>
       <div className="text-sm font-semibold text-slate-800">{value}</div>
     </div>
   </div>
