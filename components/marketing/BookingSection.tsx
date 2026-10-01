@@ -20,13 +20,13 @@ import { Textarea } from "@/components/ui/textarea";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { toast } from "@/hooks/use-toast";
-import { courses, workshops } from "@/lib/mock";
+import { formatPrice, serviceOptions } from "@/lib/content";
 
 interface Service {
   id: string;
   name: string;
-  price: number;
-  duration: string;
+  price: number | null;
+  duration: string | null;
   group: "Courses" | "Workshops";
 }
 
@@ -37,22 +37,13 @@ interface ContactInfo {
   notes: string;
 }
 
-const allServices: Service[] = [
-  ...courses.map((c) => ({
-    id: c.id,
-    name: c.title,
-    price: c.price,
-    duration: c.duration,
-    group: "Courses" as const,
-  })),
-  ...workshops.map((w) => ({
-    id: w.id,
-    name: w.title,
-    price: 89,
-    duration: w.duration,
-    group: "Workshops" as const,
-  })),
-];
+const allServices: Service[] = serviceOptions.map((o) => ({
+  id: o.slug,
+  name: o.name,
+  price: o.price,
+  duration: o.duration,
+  group: o.group,
+}));
 
 const serviceGroups: { label: "Courses" | "Workshops"; icon: LucideIcon }[] = [
   { label: "Courses", icon: Stethoscope },
@@ -61,10 +52,12 @@ const serviceGroups: { label: "Courses" | "Workshops"; icon: LucideIcon }[] = [
 
 const times = ["9:00 AM", "11:00 AM", "1:00 PM", "3:00 PM"];
 
-const BookingSection = () => {
-  const [step, setStep] = useState(1);
-  const [service, setService] = useState("");
+const BookingSection = ({ initialService = "" }: { initialService?: string }) => {
+  const valid = allServices.some((s) => s.id === initialService) ? initialService : "";
+  const [step, setStep] = useState(valid ? 2 : 1);
+  const [service, setService] = useState(valid);
   const [date, setDate] = useState<Date | undefined>(undefined);
+  const [calendarOpen, setCalendarOpen] = useState(false);
   const [time, setTime] = useState("");
   const [info, setInfo] = useState<ContactInfo>({
     name: "",
@@ -73,13 +66,13 @@ const BookingSection = () => {
     notes: "",
   });
   const cardRef = useRef<HTMLDivElement>(null);
-  const isFirstRender = useRef(true);
+  const previousStep = useRef(step);
 
+  // Scroll to the card only when the user moves between steps, never on page load.
+  // (Comparing against the previous step stays correct under Strict Mode's double effect.)
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+    if (previousStep.current === step) return;
+    previousStep.current = step;
     cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [step]);
 
@@ -97,7 +90,7 @@ const BookingSection = () => {
 
   const reserve = () => {
     toast({
-      title: "Reservation received 🎉",
+      title: "Booking request received",
       description: `${selected?.name} on ${date?.toDateString()} at ${time}. We'll email ${info.email} shortly.`,
     });
     setStep(1);
@@ -110,16 +103,16 @@ const BookingSection = () => {
   const steps = ["Service", "Date & Time", "Your Info", "Confirm"];
 
   return (
-    <section id="book" className="py-20 lg:py-28 bg-gradient-to-b from-slate-50 to-white">
+    <section id="book" className="pt-12 pb-20 lg:py-28 bg-gradient-to-b from-slate-50 to-white">
       <div className="max-w-6xl mx-auto px-6 lg:px-10">
         <div className="text-center max-w-2xl mx-auto mb-12">
           <div className="text-red-800 text-xs font-semibold uppercase tracking-[0.2em] mb-3">
             Reserve your seat
           </div>
           <h2 className="font-display text-4xl md:text-5xl font-bold text-slate-900">
-            Book your course in 60 seconds.
+            Book a class or session.
           </h2>
-          <p className="mt-4 text-slate-600">Simple 4-step booking. No account required.</p>
+          <p className="mt-4 text-slate-600">Choose a service, pick a time and leave your details. We confirm by email or phone.</p>
         </div>
 
         <div
@@ -184,8 +177,8 @@ const BookingSection = () => {
                 <ServicePicker value={service} onChange={setService} />
 
                 <div className="mt-5 rounded-2xl border border-slate-100 bg-slate-50/70 px-5 py-4 flex items-center divide-x divide-slate-200">
-                  <SummaryStat icon={Clock} label="Duration" value={selected?.duration ?? "—"} />
-                  <SummaryStat icon={MapPin} label="Location" value="Brisbane CBD" />
+                  <SummaryStat icon={Clock} label="Duration" value={selected ? selected.duration ?? "On request" : "—"} />
+                  <SummaryStat icon={MapPin} label="Location" value="Salisbury, Brisbane" />
                   <SummaryStat icon={Users} label="Group size" value="Max 12" />
                 </div>
               </div>
@@ -195,7 +188,7 @@ const BookingSection = () => {
               <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
                 <div>
                   <Label className="text-slate-900 font-semibold">Choose a date</Label>
-                  <Popover>
+                  <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
@@ -209,7 +202,10 @@ const BookingSection = () => {
                       <Calendar
                         mode="single"
                         selected={date}
-                        onSelect={setDate}
+                        onSelect={(d) => {
+                          setDate(d);
+                          if (d) setCalendarOpen(false);
+                        }}
                         disabled={(d) => d < new Date(new Date().setHours(0, 0, 0, 0))}
                         initialFocus
                       />
@@ -285,19 +281,19 @@ const BookingSection = () => {
                   <Row k="Service" v={selected?.name} />
                   <Row k="Date" v={date?.toDateString()} />
                   <Row k="Time" v={time} />
-                  <Row k="Location" v="Brisbane CBD" />
+                  <Row k="Location" v="Salisbury, Brisbane" />
                   <Row k="Name" v={info.name} />
                   <Row k="Email" v={info.email} />
                   <Row k="Phone" v={info.phone} />
                   <div className="mt-4 pt-4 border-t border-slate-200 flex items-center justify-between">
                     <span className="font-semibold text-slate-900">Total</span>
                     <span className="font-display font-bold text-2xl text-red-800">
-                      ${selected?.price}
+                      {selected ? formatPrice(selected.price) : "—"}
                     </span>
                   </div>
                 </div>
                 <p className="mt-4 text-xs text-slate-500 text-center">
-                  We&apos;ll send a payment link to your email after confirmation.
+                  We&apos;ll confirm your booking and send payment details to your email. Prices marked “Contact us” are quoted on confirmation.
                 </p>
               </div>
             )}
@@ -395,10 +391,10 @@ const ServicePicker = ({
                     <span className="block font-medium text-slate-900 text-sm truncate">
                       {s.name}
                     </span>
-                    <span className="block text-xs text-slate-500">{s.duration}</span>
+                    <span className="block text-xs text-slate-500">{s.duration ?? "Duration on request"}</span>
                   </span>
                 </span>
-                <span className="text-red-800 font-semibold text-sm shrink-0">${s.price}</span>
+                <span className="text-red-800 font-semibold text-sm shrink-0">{formatPrice(s.price)}</span>
               </button>
             );
           })}
