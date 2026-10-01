@@ -176,7 +176,7 @@ const BookingSection = ({ initialService = "" }: { initialService?: string }) =>
 
                 <ServicePicker value={service} onChange={setService} />
 
-                <div className="mt-5 rounded-2xl border border-slate-100 bg-slate-50/70 px-5 py-4 flex items-center divide-x divide-slate-200">
+                <div className="mt-5 rounded-2xl border border-slate-100 bg-slate-50/70 px-4 sm:px-5 py-3 sm:py-4 flex flex-col sm:flex-row sm:items-center divide-y sm:divide-y-0 sm:divide-x divide-slate-200">
                   <SummaryStat icon={Clock} label="Duration" value={selected ? selected.duration ?? "On request" : "—"} />
                   <SummaryStat icon={MapPin} label="Location" value="Salisbury, Brisbane" />
                   <SummaryStat icon={Users} label="Group size" value="Max 12" />
@@ -412,11 +412,11 @@ const SummaryStat = ({
   label: string;
   value: string;
 }) => (
-  <div className="flex-1 flex items-center gap-2.5 px-4 first:pl-0 last:pr-0">
+  <div className="sm:flex-1 min-w-0 flex items-center gap-2.5 py-2.5 first:pt-0 last:pb-0 sm:py-0 sm:px-4 sm:first:pl-0 sm:last:pr-0">
     <Icon className="w-4 h-4 text-red-700 shrink-0" />
-    <div className="leading-tight">
+    <div className="leading-tight min-w-0 flex flex-row items-baseline justify-between gap-3 flex-1 sm:block">
       <div className="text-[10px] uppercase tracking-wide text-slate-400">{label}</div>
-      <div className="text-sm font-semibold text-slate-800">{value}</div>
+      <div className="text-sm font-semibold text-slate-800 text-right sm:text-left">{value}</div>
     </div>
   </div>
 );
