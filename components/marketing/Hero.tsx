@@ -14,10 +14,16 @@ const Hero = () => {
             <span className="text-red-800">Delivered by Clinicians.</span>
           </h1>
           <PulseLine className="mt-6 max-w-md h-10" />
-          <p className="mt-6 font-display text-2xl md:text-3xl font-semibold text-slate-800 max-w-xl text-balance">
+          <blockquote className="mt-3 max-w-xl border-l-4 border-red-700 pl-5 font-display text-2xl font-semibold leading-snug text-slate-800 text-balance md:text-3xl">
+            <span className="text-red-700" aria-hidden="true">
+              &ldquo;
+            </span>
             Learn first aid from people who do it for a living.
-          </p>
-          <p className="mt-4 text-lg text-slate-600 max-w-xl leading-relaxed">
+            <span className="text-red-700" aria-hidden="true">
+              &rdquo;
+            </span>
+          </blockquote>
+          <p className="mt-6 text-lg text-slate-600 max-w-xl leading-relaxed">
             First aid and emergency training provided by healthcare professionals,
             in a safe and comforting room where every student can build confidence
             in their skills.

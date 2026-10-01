@@ -57,6 +57,7 @@ const BookingSection = ({ initialService = "" }: { initialService?: string }) =>
   const [step, setStep] = useState(valid ? 2 : 1);
   const [service, setService] = useState(valid);
   const [date, setDate] = useState<Date | undefined>(undefined);
+  const [calendarOpen, setCalendarOpen] = useState(false);
   const [time, setTime] = useState("");
   const [info, setInfo] = useState<ContactInfo>({
     name: "",
@@ -187,7 +188,7 @@ const BookingSection = ({ initialService = "" }: { initialService?: string }) =>
               <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
                 <div>
                   <Label className="text-slate-900 font-semibold">Choose a date</Label>
-                  <Popover>
+                  <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
@@ -201,7 +202,10 @@ const BookingSection = ({ initialService = "" }: { initialService?: string }) =>
                       <Calendar
                         mode="single"
                         selected={date}
-                        onSelect={setDate}
+                        onSelect={(d) => {
+                          setDate(d);
+                          if (d) setCalendarOpen(false);
+                        }}
                         disabled={(d) => d < new Date(new Date().setHours(0, 0, 0, 0))}
                         initialFocus
                       />

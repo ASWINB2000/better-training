@@ -113,7 +113,7 @@ export const courses: Course[] = [
   },
   {
     slug: "education-and-care-first-aid",
-    image: "/images/course-first-aid.jpg",
+    image: "/images/about-first-aid.jpg",
     title: "Education and Care First Aid",
     code: "HLTAID012",
     price: 149,
@@ -143,7 +143,7 @@ export const courses: Course[] = [
   },
   {
     slug: "safe-manual-handling",
-    image: "/images/workshop-manual-handling.png",
+    image: "/images/course-safe-manual-handling.jpg",
     title: "Safe Manual Handling",
     code: null,
     price: 60,
@@ -164,7 +164,7 @@ export const courses: Course[] = [
   },
   {
     slug: "anaphylaxis-management",
-    image: "/images/course-first-aid.jpg",
+    image: "/images/course-anaphylaxis.jpg",
     title: "Anaphylaxis Management",
     code: "22578VIC",
     price: null,
@@ -188,7 +188,7 @@ export const courses: Course[] = [
   },
   {
     slug: "asthma-management",
-    image: "/images/course-first-aid.jpg",
+    image: "/images/course-asthma.jpg",
     title: "Asthma Management",
     code: "VU22927",
     price: null,
@@ -211,7 +211,7 @@ export const courses: Course[] = [
   },
   {
     slug: "certificate-iii-individual-support",
-    image: "/images/course-cpr.jpg",
+    image: "/images/course-cert3-individual-support.jpg",
     title: "Certificate III in Individual Support",
     code: null,
     price: null,
@@ -234,7 +234,7 @@ export const courses: Course[] = [
   },
   {
     slug: "certificate-iv-mental-health",
-    image: "/images/course-cpr.jpg",
+    image: "/images/course-cert4-mental-health.jpg",
     title: "Certificate IV in Mental Health (RPL)",
     code: null,
     price: null,
@@ -258,7 +258,7 @@ export const courses: Course[] = [
   },
   {
     slug: "certificate-iv-disability",
-    image: "/images/course-cpr.jpg",
+    image: "/images/course-cert4-disability.jpg",
     title: "Certificate IV in Disability",
     code: null,
     price: null,
@@ -454,3 +454,89 @@ export const getWorkshop = (slug: string) => workshops.find((w) => w.slug === sl
 
 export const formatPrice = (price: number | null) =>
   price === null ? "Contact us" : `$${price}`;
+
+export const classSteps = [
+  {
+    title: "Book your place",
+    body: "Choose a course or workshop online, or call us. Prices are listed on every course page.",
+  },
+  {
+    title: "Prepare online",
+    body: "Some courses include online pre-work or a workbook, so classroom time goes to hands-on practice. You will need a computer, smartphone or tablet.",
+  },
+  {
+    title: "Learn by doing",
+    body: "Face-to-face theory, then practical demonstration and practice in small groups, with CPR practised on the floor on adult and infant manikins.",
+  },
+  {
+    title: "Show what you know",
+    body: "Assessment is progressive: practical skills, written questions and oral questioning, depending on the course.",
+  },
+  {
+    title: "Stay current",
+    body: "CPR certificates have an industry recommended renewal period of 12 months. Provide First Aid is 36 months.",
+  },
+];
+
+export const audiences = [
+  {
+    title: "Education and childcare",
+    body: "Educators and support staff who must respond to a first aid emergency, plus teachers and youth workers managing asthma and anaphylaxis.",
+    href: "/courses/education-and-care-first-aid",
+  },
+  {
+    title: "Aged care and disability",
+    body: "Care workers and carers who need practical skills for medication, PEG tubes, stomas, catheters, bowel care and diabetes.",
+    href: "/workshops",
+  },
+  {
+    title: "Workplaces and teams",
+    body: "Designated first aiders and managers who need CPR, first aid and safe manual handling. Workshops can be delivered on your site.",
+    href: "/courses/provide-first-aid",
+  },
+  {
+    title: "Anyone who wants to be ready",
+    body: "Community members, sports coaches and parents who want the confidence to act when it matters.",
+    href: "/courses/cpr-training",
+  },
+];
+
+export const unitCodes = [
+  { code: "HLTAID009", title: "Provide cardiopulmonary resuscitation", href: "/courses/cpr-training" },
+  { code: "HLTAID010", title: "Provide basic emergency life support", href: "/courses/provide-first-aid" },
+  { code: "HLTAID011", title: "Provide first aid", href: "/courses/provide-first-aid" },
+  { code: "HLTAID012", title: "Provide first aid in an education and care setting", href: "/courses/education-and-care-first-aid" },
+  { code: "22578VIC", title: "First aid management of anaphylaxis", href: "/courses/anaphylaxis-management" },
+  { code: "VU22927", title: "Asthma management", href: "/courses/asthma-management" },
+];
+
+export const faqs = [
+  {
+    q: "Do I need to be physically fit to take a first aid course?",
+    a: "You need the physical capacity to do the practical demonstrations, including 2 minutes of uninterrupted CPR on the floor and rescue breathing. If you are unsure, call us before you book.",
+  },
+  {
+    q: "How long does my certificate last?",
+    a: "The industry recommended renewal period is 12 months for CPR and 36 months for Provide First Aid.",
+  },
+  {
+    q: "How am I assessed?",
+    a: "Assessment depends on the course. Provide First Aid includes a written multiple-choice test, practical performance across 11 scenarios and a first aid incident report. CPR includes CPR on adult and infant manikins plus theory questions.",
+  },
+  {
+    q: "What do I need for the online part of a course?",
+    a: "A computer, smartphone, tablet or other internet-enabled device.",
+  },
+  {
+    q: "Can you train my team at our workplace?",
+    a: "Yes. Our workshops can be delivered at your site on request, and we offer corporate packages. Contact us for pricing.",
+  },
+  {
+    q: "How much do courses cost?",
+    a: "CPR is $65, Safe Manual Handling is $60, Provide First Aid is $129 and Education and Care First Aid is $149. Other courses and all workshops are priced on request.",
+  },
+  {
+    q: "Where and when do you run training?",
+    a: "At Unit 6, 192 Evans Rd, Salisbury. We are open Monday 9am to 5pm, Tuesday to Thursday 9am to 10pm, and Friday to Sunday 9am to 5pm.",
+  },
+];
