@@ -17,7 +17,7 @@ export default function WorkshopsPage() {
         title="Workshops"
         intro="Small-group clinical skills workshops for care workers and organisations. We can deliver them on your site."
       />
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-14 lg:py-20">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-6 pb-14 lg:pt-8 lg:pb-20">
         <WorkshopList items={workshops} />
         <p className="mt-8 text-slate-600">
           Contact us for corporate packages and pricing.

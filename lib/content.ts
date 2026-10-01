@@ -56,6 +56,7 @@ const ACSF =
 export const courses: Course[] = [
   {
     slug: "provide-first-aid",
+    image: "/images/course-first-aid.jpg",
     title: "Provide First Aid",
     code: "HLTAID011",
     price: 129,
@@ -86,6 +87,7 @@ export const courses: Course[] = [
   },
   {
     slug: "cpr-training",
+    image: "/images/course-cpr.jpg",
     title: "CPR Training",
     code: "HLTAID009",
     price: 65,
@@ -111,6 +113,7 @@ export const courses: Course[] = [
   },
   {
     slug: "education-and-care-first-aid",
+    image: "/images/course-first-aid.jpg",
     title: "Education and Care First Aid",
     code: "HLTAID012",
     price: 149,
@@ -140,6 +143,7 @@ export const courses: Course[] = [
   },
   {
     slug: "safe-manual-handling",
+    image: "/images/workshop-manual-handling.png",
     title: "Safe Manual Handling",
     code: null,
     price: 60,
@@ -160,6 +164,7 @@ export const courses: Course[] = [
   },
   {
     slug: "anaphylaxis-management",
+    image: "/images/course-first-aid.jpg",
     title: "Anaphylaxis Management",
     code: "22578VIC",
     price: null,
@@ -183,6 +188,7 @@ export const courses: Course[] = [
   },
   {
     slug: "asthma-management",
+    image: "/images/course-first-aid.jpg",
     title: "Asthma Management",
     code: "VU22927",
     price: null,
@@ -205,6 +211,7 @@ export const courses: Course[] = [
   },
   {
     slug: "certificate-iii-individual-support",
+    image: "/images/course-cpr.jpg",
     title: "Certificate III in Individual Support",
     code: null,
     price: null,
@@ -227,6 +234,7 @@ export const courses: Course[] = [
   },
   {
     slug: "certificate-iv-mental-health",
+    image: "/images/course-cpr.jpg",
     title: "Certificate IV in Mental Health (RPL)",
     code: null,
     price: null,
@@ -250,6 +258,7 @@ export const courses: Course[] = [
   },
   {
     slug: "certificate-iv-disability",
+    image: "/images/course-cpr.jpg",
     title: "Certificate IV in Disability",
     code: null,
     price: null,
@@ -277,6 +286,7 @@ const SMALL_GROUPS =
 export const workshops: Workshop[] = [
   {
     slug: "diabetes-management",
+    image: "/images/workshop-diabetes.png",
     title: "Diabetes Management",
     duration: "3 hours",
     summary:
@@ -295,6 +305,7 @@ export const workshops: Workshop[] = [
   },
   {
     slug: "medication-management",
+    image: "/images/workshop-medication.png",
     title: "Medication Management",
     duration: null,
     summary:
@@ -312,6 +323,7 @@ export const workshops: Workshop[] = [
   },
   {
     slug: "peg-tube-management",
+    image: "/images/workshop-peg.jpeg",
     title: "PEG Tube Management",
     duration: null,
     summary:
@@ -331,6 +343,7 @@ export const workshops: Workshop[] = [
   },
   {
     slug: "stoma-ostomy-management",
+    image: "/images/workshop-stoma.jpeg",
     title: "Stoma (Ostomy) Management",
     duration: null,
     summary:
@@ -350,6 +363,7 @@ export const workshops: Workshop[] = [
   },
   {
     slug: "bowel-management",
+    image: "/images/workshop-bowel.png",
     title: "Bowel Management",
     duration: null,
     summary:
@@ -369,6 +383,7 @@ export const workshops: Workshop[] = [
   },
   {
     slug: "idc-spc-management",
+    image: "/images/workshop-idc-spc.png",
     title: "IDC / SPC Management",
     duration: null,
     summary:
@@ -388,6 +403,7 @@ export const workshops: Workshop[] = [
   },
   {
     slug: "manual-handling",
+    image: "/images/workshop-manual-handling.png",
     title: "Manual Handling",
     duration: null,
     summary:

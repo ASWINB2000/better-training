@@ -1,9 +1,24 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { formatPrice } from "@/lib/content";
 import type { Course, Workshop } from "@/lib/types";
 
 /** Index-style listing: one row per course or workshop. */
+function Thumb({ src, alt }: { src: string; alt: string }) {
+  return (
+    <div className="relative aspect-[16/10] w-full md:w-48 shrink-0 overflow-hidden rounded-xl bg-slate-100">
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(min-width: 768px) 192px, 100vw"
+        className="object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+    </div>
+  );
+}
+
 export function CourseList({ items }: { items: Course[] }) {
   return (
     <ul className="divide-y divide-slate-200 border-y border-slate-200">
@@ -11,8 +26,9 @@ export function CourseList({ items }: { items: Course[] }) {
         <li key={c.slug}>
           <Link
             href={`/courses/${c.slug}`}
-            className="group grid gap-x-8 gap-y-2 py-7 md:grid-cols-[1fr_auto] md:items-center hover:bg-rose-50/50 -mx-4 px-4 rounded-lg transition-colors"
+            className="group grid gap-x-8 gap-y-4 py-7 md:grid-cols-[12rem_1fr_auto] md:items-center hover:bg-rose-50/50 -mx-4 px-4 rounded-lg transition-colors"
           >
+            <Thumb src={c.image} alt="" />
             <div>
               <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
                 <h3 className="font-display text-2xl md:text-3xl font-semibold text-slate-900 group-hover:text-red-800 transition-colors">
@@ -53,8 +69,9 @@ export function WorkshopList({ items }: { items: Workshop[] }) {
         <li key={w.slug}>
           <Link
             href={`/workshops/${w.slug}`}
-            className="group grid gap-x-8 gap-y-2 py-6 md:grid-cols-[1fr_auto] md:items-center hover:bg-rose-50/50 -mx-4 px-4 rounded-lg transition-colors"
+            className="group grid gap-x-8 gap-y-4 py-6 md:grid-cols-[12rem_1fr_auto] md:items-center hover:bg-rose-50/50 -mx-4 px-4 rounded-lg transition-colors"
           >
+            <Thumb src={w.image} alt="" />
             <div>
               <h3 className="font-display text-2xl font-semibold text-slate-900 group-hover:text-red-800 transition-colors">
                 {w.title}

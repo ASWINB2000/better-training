@@ -53,6 +53,7 @@ export default async function CoursePage({ params }: PageProps<"/courses/[slug]"
       backLabel="All courses"
       title={course.title}
       intro={course.summary}
+      image={course.image}
       price={course.price === null ? "Contact us for pricing" : formatPrice(course.price)}
       facts={facts}
       bookHref={`/book?service=${course.slug}`}

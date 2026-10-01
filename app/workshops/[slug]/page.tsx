@@ -28,6 +28,7 @@ export default async function WorkshopPage({ params }: PageProps<"/workshops/[sl
       backLabel="All workshops"
       title={`${workshop.title} Workshop`}
       intro={workshop.summary}
+      image={workshop.image}
       price="Contact us for pricing"
       facts={[
         { label: "Duration", value: workshop.duration ?? "Confirmed when you book" },

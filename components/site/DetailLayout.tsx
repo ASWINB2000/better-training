@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { Check, ChevronLeft, Phone } from "lucide-react";
@@ -15,6 +16,7 @@ export function DetailLayout({
   backLabel,
   title,
   intro,
+  image,
   facts,
   price,
   bookHref,
@@ -26,6 +28,7 @@ export function DetailLayout({
   backLabel: string;
   title: string;
   intro: string;
+  image: string;
   facts: Fact[];
   price?: string;
   bookHref: string;
@@ -44,8 +47,18 @@ export function DetailLayout({
         </Link>
       </PageHeader>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 py-14 lg:py-20 grid lg:grid-cols-[1fr_22rem] gap-14">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-8 pb-14 lg:pt-10 lg:pb-20 grid lg:grid-cols-[1fr_22rem] gap-14">
         <div className="space-y-12 max-w-2xl">
+          <div className="relative aspect-[16/9] overflow-hidden rounded-2xl bg-slate-100">
+            <Image
+              src={image}
+              alt={title}
+              fill
+              sizes="(min-width: 1024px) 672px, 100vw"
+              className="object-cover"
+              priority
+            />
+          </div>
           <section>
             <h2 className="font-display text-2xl md:text-3xl font-semibold text-slate-900">
               {outcomesTitle}

@@ -25,6 +25,7 @@ export interface Feature {
 
 export interface Course {
   slug: string;
+  image: string;
   title: string;
   /** Unit or qualification code, when the reference site publishes one. */
   code: string | null;
@@ -43,6 +44,7 @@ export interface Course {
 
 export interface Workshop {
   slug: string;
+  image: string;
   title: string;
   duration: string | null;
   summary: string;

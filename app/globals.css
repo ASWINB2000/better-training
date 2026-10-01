@@ -60,11 +60,6 @@ code {
   }
 }
 
-/* Smooth scroll for anchor navigation */
-html {
-  scroll-behavior: smooth;
-}
-
 /* Custom subtle grain overlay for hero */
 .grain::after {
   content: "";
@@ -159,7 +154,6 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
   .fade-in-up, .marquee { animation: none; }
   .pulse-line path { animation: none; stroke-dashoffset: 0; }
   .card-lift, .card-lift:hover { transition: none; transform: none; }
