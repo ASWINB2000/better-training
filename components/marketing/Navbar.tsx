@@ -1,98 +1,73 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, Phone, X } from "lucide-react";
-import { navLinks, siteInfo } from "@/lib/mock";
-import { Button } from "@/components/ui/button";
+import { navLinks, siteInfo } from "@/lib/content";
+import { cn } from "@/lib/utils";
+
+const isActive = (pathname: string, href: string) =>
+  href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/");
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const scrollTo = (href: string) => {
-    setOpen(false);
-    const id = href.replace("#", "");
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
+  const pathname = usePathname();
 
   return (
-    <header
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/85 backdrop-blur-md shadow-[0_2px_20px_-8px_rgba(0,0,0,0.15)]"
-          : "bg-transparent"
-      }`}
-    >
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-6 lg:px-10 h-20 flex items-center justify-between">
-        <a
-          href="#home"
-          onClick={(e) => {
-            e.preventDefault();
-            scrollTo("#home");
-          }}
-          className="flex items-center gap-2.5"
-        >
+        <Link href="/" className="flex items-center" aria-label="Better Training home">
           <Image
             src="/logo.png"
             alt="Better Training"
             width={96}
             height={62}
-            className="h-16 w-auto"
+            className="h-14 w-auto"
             priority
           />
-        </a>
+        </Link>
 
-        <nav className="hidden lg:flex items-center gap-9">
+        <nav aria-label="Main" className="hidden lg:flex items-center gap-9">
           {navLinks.map((l) => (
-            <a
+            <Link
               key={l.href}
               href={l.href}
-              onClick={(e) => {
-                e.preventDefault();
-                scrollTo(l.href);
-              }}
-              className="link-underline text-slate-700 hover:text-red-800 font-medium text-sm transition-colors"
+              aria-current={isActive(pathname, l.href) ? "page" : undefined}
+              className={cn(
+                "link-underline font-medium text-sm transition-colors hover:text-red-800",
+                isActive(pathname, l.href) ? "text-red-800" : "text-slate-700"
+              )}
             >
               {l.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-5">
           <a
-            href={`tel:${siteInfo.phone}`}
+            href={siteInfo.phoneHref}
             className="flex items-center gap-2 text-sm font-bold text-slate-900 hover:text-red-800 transition-colors"
           >
             <span className="w-9 h-9 rounded-full bg-red-50 grid place-items-center">
               <Phone className="w-4 h-4 text-red-800" />
             </span>
-            <span className="leading-tight">
-              <span className="block text-[10px] uppercase tracking-widest text-slate-500 font-semibold">
-                Call Now
-              </span>
-              <span className="block">{siteInfo.phone}</span>
-            </span>
+            {siteInfo.phone}
           </a>
-          <Button
-            onClick={() => scrollTo("#book")}
-            className="bg-red-800 hover:bg-red-900 text-white rounded-full px-6 h-11 font-semibold tracking-wide"
+          <Link
+            href="/book"
+            className="inline-flex items-center bg-red-800 hover:bg-red-900 text-white rounded-full px-6 h-11 text-sm font-semibold transition-colors"
           >
-            BOOK NOW
-          </Button>
+            Book now
+          </Link>
         </div>
 
         <button
           className="lg:hidden p-2 rounded-lg hover:bg-slate-100"
           onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
         >
           {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
@@ -100,27 +75,32 @@ const Navbar = () => {
 
       {open && (
         <div className="lg:hidden bg-white border-t border-slate-100 shadow-lg">
-          <div className="px-6 py-6 flex flex-col gap-4">
+          <nav aria-label="Mobile" className="px-6 py-6 flex flex-col gap-1">
             {navLinks.map((l) => (
-              <a
+              <Link
                 key={l.href}
                 href={l.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollTo(l.href);
-                }}
-                className="text-slate-800 font-medium"
+                onClick={() => setOpen(false)}
+                aria-current={isActive(pathname, l.href) ? "page" : undefined}
+                className={cn(
+                  "py-3 font-medium border-b border-slate-100",
+                  isActive(pathname, l.href) ? "text-red-800" : "text-slate-800"
+                )}
               >
                 {l.label}
-              </a>
+              </Link>
             ))}
-            <Button
-              onClick={() => scrollTo("#book")}
-              className="bg-red-800 hover:bg-red-900 text-white rounded-full font-semibold tracking-wide"
+            <a href={siteInfo.phoneHref} className="py-3 font-semibold text-slate-900">
+              Call {siteInfo.phone}
+            </a>
+            <Link
+              href="/book"
+              onClick={() => setOpen(false)}
+              className="mt-2 text-center bg-red-800 text-white rounded-full h-12 leading-[3rem] font-semibold"
             >
-              BOOK NOW
-            </Button>
-          </div>
+              Book now
+            </Link>
+          </nav>
         </div>
       )}
     </header>
