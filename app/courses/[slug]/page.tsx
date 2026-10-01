@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { DetailLayout } from "@/components/site/DetailLayout";
-import { courses, formatPrice, getCourse } from "@/lib/content";
+import { courseFaqs, courses, formatPrice, getCourse } from "@/lib/content";
 
 export function generateStaticParams() {
   return courses.map((c) => ({ slug: c.slug }));
@@ -60,6 +60,7 @@ export default async function CoursePage({ params }: PageProps<"/courses/[slug]"
       outcomesTitle="What you will learn"
       outcomes={course.outcomes}
       sections={sections}
+      faqs={courseFaqs(course)}
     />
   );
 }

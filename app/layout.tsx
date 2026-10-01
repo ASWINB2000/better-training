@@ -27,6 +27,8 @@ export const metadata: Metadata = {
   },
   description:
     "Nationally recognised first aid, CPR and specialist care training in Brisbane, taught by healthcare professionals.",
+  openGraph: { siteName: "Better Training", type: "website", locale: "en_AU" },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({
