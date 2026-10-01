@@ -25,15 +25,15 @@ Status key: `[ ]` not started, `[x]` done.
   - Add `LocalBusiness` and `Course` JSON-LD on each course page. About already has JSON-LD, so extend that pattern.
   - Set up and link a Google Business Profile (Brisbane local search).
 
-- [ ] **5. Open Graph images**
+- [x] **5. Open Graph images**
   - Add `opengraph-image.tsx` (per course where possible) so links shared on WhatsApp, Facebook and LinkedIn show a preview card.
 
 ## Look and feel
 
 - [ ] **6. Testimonials / Google reviews** — rotating carousel with star ratings and real names.
-- [ ] **7. Course filter and search** on `/courses` — by category, duration, price.
+- [x] **7. Course filter and search** on `/courses` — by category, duration, price.
 - [ ] **8. Sticky mobile "Book now" bar** and a floating WhatsApp / call button.
-- [ ] **9. FAQ accordion** on course pages and home (fewer enquiry emails, better SEO).
+- [x] **9. FAQ accordion** on course pages and home (fewer enquiry emails, better SEO).
 - [ ] **10. Subtle scroll animations** — fade/slide in, stat count-up. Respect `prefers-reduced-motion`.
 - [ ] **11. Small extras**
   - Training photo gallery

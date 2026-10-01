@@ -1,4 +1,5 @@
 import type {
+  Faq,
   Course,
   Feature,
   NavLink,
@@ -56,6 +57,7 @@ const ACSF =
 export const courses: Course[] = [
   {
     slug: "provide-first-aid",
+    category: "first-aid",
     image: "/images/course-first-aid.jpg",
     title: "Provide First Aid",
     code: "HLTAID011",
@@ -87,6 +89,7 @@ export const courses: Course[] = [
   },
   {
     slug: "cpr-training",
+    category: "first-aid",
     image: "/images/course-cpr.jpg",
     title: "CPR Training",
     code: "HLTAID009",
@@ -113,6 +116,7 @@ export const courses: Course[] = [
   },
   {
     slug: "education-and-care-first-aid",
+    category: "first-aid",
     image: "/images/about-first-aid.jpg",
     title: "Education and Care First Aid",
     code: "HLTAID012",
@@ -143,6 +147,7 @@ export const courses: Course[] = [
   },
   {
     slug: "safe-manual-handling",
+    category: "manual-handling",
     image: "/images/course-safe-manual-handling.jpg",
     title: "Safe Manual Handling",
     code: null,
@@ -164,6 +169,7 @@ export const courses: Course[] = [
   },
   {
     slug: "anaphylaxis-management",
+    category: "health-conditions",
     image: "/images/course-anaphylaxis.jpg",
     title: "Anaphylaxis Management",
     code: "22578VIC",
@@ -188,6 +194,7 @@ export const courses: Course[] = [
   },
   {
     slug: "asthma-management",
+    category: "health-conditions",
     image: "/images/course-asthma.jpg",
     title: "Asthma Management",
     code: "VU22927",
@@ -211,6 +218,7 @@ export const courses: Course[] = [
   },
   {
     slug: "certificate-iii-individual-support",
+    category: "qualifications",
     image: "/images/course-cert3-individual-support.jpg",
     title: "Certificate III in Individual Support",
     code: null,
@@ -234,6 +242,7 @@ export const courses: Course[] = [
   },
   {
     slug: "certificate-iv-mental-health",
+    category: "qualifications",
     image: "/images/course-cert4-mental-health.jpg",
     title: "Certificate IV in Mental Health (RPL)",
     code: null,
@@ -258,6 +267,7 @@ export const courses: Course[] = [
   },
   {
     slug: "certificate-iv-disability",
+    category: "qualifications",
     image: "/images/course-cert4-disability.jpg",
     title: "Certificate IV in Disability",
     code: null,
@@ -540,3 +550,25 @@ export const faqs = [
     a: "At Unit 6, 192 Evans Rd, Salisbury. We are open Monday 9am to 5pm, Tuesday to Thursday 9am to 10pm, and Friday to Sunday 9am to 5pm.",
   },
 ];
+
+/** Course-specific questions built only from the facts we already publish for each course. */
+export function courseFaqs(c: Course): Faq[] {
+  const list: Faq[] = [];
+  if (c.duration) list.push({ q: "How long is the course?", a: `${c.duration}.` });
+  list.push({
+    q: "How much does it cost?",
+    a:
+      c.price === null
+        ? `Pricing is quoted on request. Call ${siteInfo.phone} or email ${siteInfo.email}.`
+        : `${formatPrice(c.price)}.`,
+  });
+  list.push({ q: "Who is it for?", a: c.audience });
+  list.push({ q: "Are there any prerequisites?", a: c.prerequisites });
+  list.push({ q: "How am I assessed?", a: c.assessment });
+  if (c.renewal) list.push({ q: "When does my certificate need renewing?", a: c.renewal });
+  list.push({
+    q: "How do I book?",
+    a: `Use the Book now button, or call us on ${siteInfo.phone}.`,
+  });
+  return list;
+}

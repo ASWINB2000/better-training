@@ -218,7 +218,8 @@ export default function AboutPage() {
       {/* FAQ */}
       <section className="bg-slate-50 py-16 lg:py-24">
         <div className="max-w-3xl mx-auto px-6 lg:px-10">
-          <h2 className={h2}>Questions people ask before booking</h2>
+          <h2 className={h2}>Frequently asked questions</h2>
+          <p className="mt-3 text-slate-600">Everything people ask before they book.</p>
           <div className="mt-8 divide-y divide-slate-200 border-y border-slate-200">
             {faqs.map((f) => (
               <details key={f.q} className="group py-5">

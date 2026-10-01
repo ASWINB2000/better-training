@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/site/PageHeader";
-import { CourseList } from "@/components/site/ServiceList";
+import { CourseBrowser } from "@/components/site/CourseBrowser";
 import { CTABand } from "@/components/site/CTABand";
 import { courses } from "@/lib/content";
 
@@ -18,7 +18,7 @@ export default function CoursesPage() {
         intro="Nationally recognised first aid and care qualifications, taught face-to-face by healthcare professionals."
       />
       <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-6 pb-14 lg:pt-8 lg:pb-20">
-        <CourseList items={courses} />
+        <CourseBrowser courses={courses} />
       </div>
       <CTABand />
     </>

@@ -4,7 +4,9 @@ import type { ReactNode } from "react";
 import { Check, ChevronLeft, Phone } from "lucide-react";
 import { PageHeader } from "./PageHeader";
 import { CTABand } from "./CTABand";
+import { FaqSection } from "./FaqSection";
 import { siteInfo } from "@/lib/content";
+import type { Faq } from "@/lib/types";
 
 export interface Fact {
   label: string;
@@ -23,6 +25,7 @@ export function DetailLayout({
   sections,
   outcomesTitle,
   outcomes,
+  faqs,
 }: {
   backHref: string;
   backLabel: string;
@@ -35,6 +38,7 @@ export function DetailLayout({
   sections: { title: string; body: ReactNode }[];
   outcomesTitle: string;
   outcomes: string[];
+  faqs?: Faq[];
 }) {
   return (
     <>
@@ -108,6 +112,7 @@ export function DetailLayout({
           </a>
         </aside>
       </div>
+      {faqs && faqs.length > 0 && <FaqSection items={faqs} tone="muted" />}
       <CTABand />
     </>
   );

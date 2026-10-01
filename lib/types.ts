@@ -23,8 +23,20 @@ export interface Feature {
   desc: string;
 }
 
+export type CourseCategory =
+  | "first-aid"
+  | "health-conditions"
+  | "manual-handling"
+  | "qualifications";
+
+export interface Faq {
+  q: string;
+  a: string;
+}
+
 export interface Course {
   slug: string;
+  category: CourseCategory;
   image: string;
   title: string;
   /** Unit or qualification code, when the reference site publishes one. */
