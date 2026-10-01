@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/site/PageHeader";
+import { PullQuote } from "@/components/site/PullQuote";
 import { CTABand } from "@/components/site/CTABand";
 import { features, philosophy, stats } from "@/lib/content";
 
@@ -57,15 +58,12 @@ export default function AboutPage() {
       </section>
 
       <section className="py-20 lg:py-24">
-        <figure className="max-w-4xl mx-auto px-6 lg:px-10">
-          <blockquote className="font-display text-3xl md:text-4xl font-semibold leading-tight text-slate-900 text-balance">
-            {philosophy.quote}
-          </blockquote>
-          <figcaption className="mt-6 text-slate-600">
-            All of the trainers at Better Training are highly skilled professionals with many
-            years of experience.
-          </figcaption>
-        </figure>
+        <PullQuote
+          tone="light"
+          caption="All of the trainers at Better Training are highly skilled professionals with many years of experience."
+        >
+          {philosophy.quote}
+        </PullQuote>
       </section>
 
       <CTABand />

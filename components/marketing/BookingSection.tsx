@@ -65,13 +65,13 @@ const BookingSection = ({ initialService = "" }: { initialService?: string }) =>
     notes: "",
   });
   const cardRef = useRef<HTMLDivElement>(null);
-  const isFirstRender = useRef(true);
+  const previousStep = useRef(step);
 
+  // Scroll to the card only when the user moves between steps, never on page load.
+  // (Comparing against the previous step stays correct under Strict Mode's double effect.)
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
+    if (previousStep.current === step) return;
+    previousStep.current = step;
     cardRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   }, [step]);
 

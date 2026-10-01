@@ -1,37 +1,17 @@
 import Link from "next/link";
-import { Award, GraduationCap, Stethoscope, type LucideIcon } from "lucide-react";
 import Hero from "@/components/marketing/Hero";
+import WhyChooseUs from "@/components/marketing/WhyChooseUs";
 import { CourseList, WorkshopList } from "@/components/site/ServiceList";
+import { PullQuote } from "@/components/site/PullQuote";
 import { CTABand } from "@/components/site/CTABand";
-import { courses, features, philosophy, workshops } from "@/lib/content";
-
-const featureIcons: Record<string, LucideIcon> = {
-  Map: Award,
-  Users: GraduationCap,
-  MessageCircle: Stethoscope,
-};
+import { courses, philosophy, workshops } from "@/lib/content";
 
 export default function Home() {
   return (
     <>
       <Hero />
 
-      <section className="max-w-7xl mx-auto px-6 lg:px-10 py-16 lg:py-20">
-        <div className="grid md:grid-cols-3 gap-10">
-          {features.map((f) => {
-            const Icon = featureIcons[f.icon];
-            return (
-              <div key={f.title}>
-                <Icon className="w-7 h-7 text-red-800" aria-hidden="true" />
-                <h2 className="mt-4 font-display text-2xl font-semibold text-slate-900">
-                  {f.title}
-                </h2>
-                <p className="mt-2 text-slate-600 leading-relaxed">{f.desc}</p>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+      <WhyChooseUs />
 
       <section className="bg-slate-50 py-16 lg:py-24">
         <div className="max-w-7xl mx-auto px-6 lg:px-10">
@@ -62,17 +42,18 @@ export default function Home() {
       </section>
 
       <section className="bg-slate-950 text-white py-20 lg:py-28">
-        <figure className="max-w-4xl mx-auto px-6 lg:px-10">
-          <blockquote className="font-display text-3xl md:text-5xl font-semibold leading-tight text-balance">
-            {philosophy.quote}
-          </blockquote>
-          <figcaption className="mt-8 text-slate-400">
-            The teaching philosophy behind every Better Training class.{" "}
-            <Link href="/about" className="text-white underline underline-offset-4">
-              About us
-            </Link>
-          </figcaption>
-        </figure>
+        <PullQuote
+          caption={
+            <>
+              The Better Training philosophy.{" "}
+              <Link href="/about" className="text-white underline underline-offset-4">
+                About us
+              </Link>
+            </>
+          }
+        >
+          {philosophy.quote}
+        </PullQuote>
       </section>
 
       <CTABand />
